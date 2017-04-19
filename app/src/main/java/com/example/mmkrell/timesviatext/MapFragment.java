@@ -50,7 +50,6 @@ public class MapFragment extends Fragment implements LocationListener {
     private View viewWaitingForGpsSignal;
     private View viewGpsDisabled;
 
-    private TextView textViewZoomLevel;
     private ImageButton buttonMyLocation;
     private ImageButton buttonFollowMe;
     private TextView textViewOpenStreetMapCredit;
@@ -79,7 +78,6 @@ public class MapFragment extends Fragment implements LocationListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
-        textViewZoomLevel = (TextView) v.findViewById(R.id.text_view_zoom_level);
         viewWaitingForGpsSignal = v.findViewById(R.id.view_waiting_for_gps_signal);
         viewGpsDisabled = v.findViewById(R.id.view_gps_disabled);
 
@@ -152,7 +150,6 @@ public class MapFragment extends Fragment implements LocationListener {
 
             @Override
             public boolean onZoom(ZoomEvent event) {
-                textViewZoomLevel.setText("Zoom level: " + event.getZoomLevel());
                 updateMarkers();
                 return false;
             }
