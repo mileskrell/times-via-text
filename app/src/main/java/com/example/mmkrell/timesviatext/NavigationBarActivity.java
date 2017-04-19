@@ -15,7 +15,6 @@ public class NavigationBarActivity extends AppCompatActivity {
 
     // Only one of each fragment is used so that they don't have to be recreated every time the user moves between views
     private MapFragment mapFragment;
-    private RoutesFragment routesFragment;
     private FavoritesFragment favoritesFragment;
 
     private BottomNavigationView bottomNavigationView;
@@ -29,15 +28,6 @@ public class NavigationBarActivity extends AppCompatActivity {
                     fragmentTransaction.show(mapFragment);
                     mapFragment.setUserVisibleHint(true);
 
-                    fragmentTransaction.hide(routesFragment);
-                    fragmentTransaction.hide(favoritesFragment);
-                    fragmentTransaction.commit();
-                    return true;
-                case R.id.navigation_routes:
-                    fragmentTransaction.show(routesFragment);
-
-                    fragmentTransaction.hide(mapFragment);
-                    mapFragment.setUserVisibleHint(false);
                     fragmentTransaction.hide(favoritesFragment);
                     fragmentTransaction.commit();
                     return true;
@@ -46,7 +36,6 @@ public class NavigationBarActivity extends AppCompatActivity {
 
                     fragmentTransaction.hide(mapFragment);
                     mapFragment.setUserVisibleHint(false);
-                    fragmentTransaction.hide(routesFragment);
                     fragmentTransaction.commit();
                     return true;
             }
@@ -62,11 +51,9 @@ public class NavigationBarActivity extends AppCompatActivity {
 
         favoritesFragment = FavoritesFragment.newInstance();
         mapFragment = MapFragment.newInstance();
-        routesFragment = RoutesFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content, mapFragment, "map_fragment")
-                .add(R.id.content, routesFragment, "routes_fragment")
                 .add(R.id.content, favoritesFragment, "favorites_fragment")
                 .commit();
 
@@ -74,12 +61,6 @@ public class NavigationBarActivity extends AppCompatActivity {
 
         // Select the map fragment at startup
         bottomNavigationView.setSelectedItemId(R.id.navigation_map);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        // Have the user download map tiles, if they haven't before
-        if (! sharedPreferences.getBoolean("has_downloaded_tiles", false))
-            startActivity(new Intent(this, DownloadMapTilesActivity.class));
     }
 
     @Override
@@ -91,9 +72,6 @@ public class NavigationBarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.options_menu_download_tiles:
-                startActivity(new Intent(this, DownloadMapTilesActivity.class));
-                return true;
             case R.id.options_menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
